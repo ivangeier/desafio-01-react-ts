@@ -7,7 +7,7 @@ export function TodoInput() {
          <input type="text" placeholder='Adicione uma nova tarefa' />
          <button>
             Criar
-            <PlusCircle />
+            <PlusCircle size={18} />
          </button>
       </form>
    )
