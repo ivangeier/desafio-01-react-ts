@@ -1,40 +1,22 @@
 import { PlusCircle } from 'phosphor-react';
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import styles from './Todo.module.css';
 import { TodoItem } from './TodoItem';
 import { v4 as uuidV4 } from 'uuid';
 
 interface Task {
-   id?: string,
+   id: string,
    task: string,
    isDone: boolean
 }
 
-const tasksArray = [
-   {
-      id: "1",
-      task: "Estudar React",
-      isDone: false
-   },
-   {
-      id: "2",
-      task: "Estudar TypeScript",
-      isDone: true
-   },
-   {
-      id: "3",
-      task: "Estudar Bot Telegram",
-      isDone: false
-   }
-]
-
 export function Todo() {
 
-   const [tasks, setTasks] = useState(tasksArray)
+   const [tasks, setTasks] = useState<Task[]>([])
 
    const [newTaskText, setNewTaskText] = useState('');
 
-   function handleCreateNewTask(event: any) {
+   function handleCreateNewTask(event: FormEvent) {
       event.preventDefault();
 
       const newTask = {
@@ -47,13 +29,23 @@ export function Todo() {
       setNewTaskText('');
    }
 
-   function handleNewTaskChange(event: any) {
+   function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
       setNewTaskText(event?.target.value)
    }
 
    function deleteTask(id: string) {
       const newTaskList = tasks.filter(task => task.id != id)
       setTasks(newTaskList);
+   }
+
+   function changeTaskStatus(id: string) {
+      const newTaskListStatus = tasks.map(task => {
+         if (task.id == id) {
+            task.isDone = !task.isDone;
+         }
+         return task
+      })
+      setTasks(newTaskListStatus);
    }
 
    return (
@@ -72,7 +64,7 @@ export function Todo() {
                <PlusCircle size={18} />
             </button>
          </main>
-         <section>
+         <section className='tasks'>
             {tasks.map(task => {
                return (
                   <TodoItem
@@ -81,6 +73,7 @@ export function Todo() {
                      isDone={task.isDone}
                      id={task.id}
                      onDeleteTask={deleteTask}
+                     onChangeTaskStatus={changeTaskStatus}
                   />
                )
             })}

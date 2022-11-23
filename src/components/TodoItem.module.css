@@ -16,6 +16,7 @@
 
 .circle {
    color: var(--blue);
+   cursor: pointer;
 }
 
 .task {
@@ -29,4 +30,17 @@
 .delete:hover {
    color: var(--danger);
    cursor: pointer;
+}
+
+.checked {
+   width: 18px;
+}
+
+.checked:hover {
+   cursor: pointer;
+}
+
+.done {
+   color: var(--gray-300);
+   text-decoration: line-through;
 }
