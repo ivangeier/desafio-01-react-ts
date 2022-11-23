@@ -4,6 +4,7 @@ import styles from './Todo.module.css';
 import { TodoItem } from './TodoItem';
 import { v4 as uuidV4 } from 'uuid';
 import { StatusBar } from './StatusBar';
+import EmptyTasks from './EmptyTasks';
 
 interface Task {
    id: string,
@@ -75,18 +76,21 @@ export function Todo() {
             />
          </section>
          <section className='tasks'>
-            {tasks.map(task => {
-               return (
-                  <TodoItem
-                     key={task.id}
-                     task={task.task}
-                     isDone={task.isDone}
-                     id={task.id}
-                     onDeleteTask={deleteTask}
-                     onChangeTaskStatus={changeTaskStatus}
-                  />
-               )
-            })}
+            {tasks.length == 0
+               ? <EmptyTasks />
+               : tasks.map(task => {
+                  return (
+                     <TodoItem
+                        key={task.id}
+                        task={task.task}
+                        isDone={task.isDone}
+                        id={task.id}
+                        onDeleteTask={deleteTask}
+                        onChangeTaskStatus={changeTaskStatus}
+                     />
+                  )
+               })
+            }
          </section>
       </form>
    )
