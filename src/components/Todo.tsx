@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import styles from './Todo.module.css';
 import { TodoItem } from './TodoItem';
 import { v4 as uuidV4 } from 'uuid';
+import { StatusBar } from './StatusBar';
 
 interface Task {
    id: string,
@@ -15,6 +16,9 @@ export function Todo() {
    const [tasks, setTasks] = useState<Task[]>([])
 
    const [newTaskText, setNewTaskText] = useState('');
+
+   const createdTasks = tasks.length;
+   const doneTasks = tasks.filter(task => task.isDone == true).length;
 
    function handleCreateNewTask(event: FormEvent) {
       event.preventDefault();
@@ -64,6 +68,12 @@ export function Todo() {
                <PlusCircle size={18} />
             </button>
          </main>
+         <section className='statusbar'>
+            <StatusBar
+               done={doneTasks}
+               created={createdTasks}
+            />
+         </section>
          <section className='tasks'>
             {tasks.map(task => {
                return (
